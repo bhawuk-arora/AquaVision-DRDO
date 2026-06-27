@@ -22,3 +22,4 @@ Pillow
 torch
 torchvision
 websockets
+python-multipart

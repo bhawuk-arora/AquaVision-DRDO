@@ -13,32 +13,7 @@ from fastapi import FastAPI, File, UploadFile, HTTPException, WebSocket, WebSock
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import json
-
-# --- FASTAPI SETUP ---
-app = FastAPI(
-    title="AquaVision Backend API",
-    description="AI-powered underwater image enhancement and object classification."
-)
-
-origins = [
-    "http://localhost:5173",  # Frontend Dev Server
-    "http://127.0.0.1:5173",
-    "http://localhost:3000",  # Frontend Production/Docker port
-]
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-class EnhancedImageResponse(BaseModel):
-    success: bool
-    enhanced_image: str  # Base64 encoded image string (with data URI prefix)
-    processing_time: str
-    confidence: float
-    classification_label: str
+from contextlib import asynccontextmanager
 
 # --- CORE LOGIC: IMAGENET LABELS & PYTORCH MODEL LOADING ---
 
@@ -63,8 +38,8 @@ model = None
 imagenet_categories = []
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-@app.on_event("startup")
-def load_model():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     global model, imagenet_categories
     imagenet_categories = load_imagenet_labels()
     try:
@@ -82,6 +57,34 @@ def load_model():
         print(f"Model loaded successfully on device: {device}")
     except Exception as e:
         print(f"Failed to load PyTorch model: {e}")
+    yield
+
+# --- FASTAPI SETUP ---
+app = FastAPI(
+    title="AquaVision Backend API",
+    description="AI-powered underwater image enhancement and object classification.",
+    lifespan=lifespan
+)
+
+origins = [
+    "http://localhost:5173",  # Frontend Dev Server
+    "http://127.0.0.1:5173",
+    "http://localhost:3000",  # Frontend Production/Docker port
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+class EnhancedImageResponse(BaseModel):
+    success: bool
+    enhanced_image: str  # Base64 encoded image string (with data URI prefix)
+    processing_time: str
+    confidence: float
+    classification_label: str
 
 def classify_image(image_cv_bgr) -> tuple[str, float]:
     """
