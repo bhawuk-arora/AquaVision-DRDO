@@ -57,7 +57,8 @@ const UploadPage = ({ isDark, showToast, setEnhancedData, setCurrentPage }) => {
         enhanced: result.data.enhanced_image,
         metadata: {
           processingTime: result.data.processing_time,
-          confidence: result.data.confidence
+          confidence: result.data.confidence,
+          label: result.data.classification_label
         }
       });
 
@@ -71,7 +72,8 @@ const UploadPage = ({ isDark, showToast, setEnhancedData, setCurrentPage }) => {
         enhanced: preview,
         metadata: {
           processingTime: '2.3s',
-          confidence: 0.94
+          confidence: 0.94,
+          label: 'Scuba Diver'
         }
       });
       setTimeout(() => setCurrentPage('results'), 1000);

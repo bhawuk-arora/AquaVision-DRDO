@@ -69,18 +69,24 @@ const ResultsPage = ({ isDark, enhancedData }) => {
         </motion.div>
 
         <div className={`p-6 rounded-2xl ${isDark ? 'bg-slate-800/50' : 'bg-white/50'} backdrop-blur-sm border ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>
-          <h3 className={`text-xl font-semibold mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>Enhancement Metadata</h3>
-          <div className="grid grid-cols-2 gap-4">
+          <h3 className={`text-xl font-semibold mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>Inference & Enhancement Metadata</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Processing Time</p>
+              <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>AI Classification</p>
               <p className={`text-2xl font-bold ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`}>
-                {enhancedData.metadata.processingTime}
+                {enhancedData.metadata.label || 'N/A'}
               </p>
             </div>
             <div>
               <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Confidence Score</p>
               <p className={`text-2xl font-bold ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`}>
                 {(enhancedData.metadata.confidence * 100).toFixed(1)}%
+              </p>
+            </div>
+            <div>
+              <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Processing Time</p>
+              <p className={`text-2xl font-bold ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`}>
+                {enhancedData.metadata.processingTime}
               </p>
             </div>
           </div>

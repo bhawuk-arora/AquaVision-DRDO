@@ -1,11 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Upload, Image, Info, Home, Sun, Moon, Droplets } from 'lucide-react';
+import { Upload, Image, Info, Home, Sun, Moon, Droplets, Video } from 'lucide-react';
 
 const Navbar = ({ currentPage, setCurrentPage, isDark, toggleTheme }) => {
   const navItems = [
     { id: 'home', label: 'Home', icon: Home },
     { id: 'upload', label: 'Upload', icon: Upload },
+    { id: 'stream', label: 'Live Stream', icon: Video },
     { id: 'results', label: 'Results', icon: Image },
     { id: 'about', label: 'About', icon: Info }
   ];

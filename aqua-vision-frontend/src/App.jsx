@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage';
 import UploadPage from './pages/UploadPage';
 import ResultsPage from './pages/ResultsPage';
 import AboutPage from './pages/AboutPage';
+import LiveStreamPage from './pages/LiveStreamPage';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -44,6 +45,13 @@ export default function App() {
             showToast={showToast} 
             setEnhancedData={setEnhancedData} 
             setCurrentPage={setCurrentPage} 
+          />
+        )}
+        {currentPage === 'stream' && (
+          <LiveStreamPage 
+            key="stream" 
+            isDark={isDark} 
+            showToast={showToast} 
           />
         )}
         {currentPage === 'results' && (
