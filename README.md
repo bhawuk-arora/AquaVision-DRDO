@@ -118,9 +118,9 @@ The preprocessing engine in [main.py](file:///c:/Users/bhawu/Documents/GitHub/aq
   1. Computes the minimum intensity channel among Blue and Green channels:
      $$J^{\text{UDCP}}(x) = \min_{y \in \Omega(x)} \left( \min_{c \in \{G, B\}} J^c(y) \right)$$
   2. Estimates background waterlight ($A$) from the top 0.1% brightest pixels in the UDCP map.
-  3. Formulates the transmission map and refines it using a custom-implemented **Guided Filter** to preserve edges and prevent halo boundaries.
+  3. Formulates the transmission map $t(x)$ and refines it using a custom-implemented **Guided Filter** to preserve edges and prevent halo boundaries.
   4. Restores scene radiance:
-     $$J = \frac{I - A}{\text{refined\_transmission}} + A$$
+     $$J(x) = \frac{I(x) - A}{t(x)} + A$$
 
 * **Contrast Limited Adaptive Histogram Equalization (CLAHE)**:
   1. The BGR image is converted to the **CIE L\*a\*b\*** color space, which decouples luminance/lightness ($L$) from chromaticity/color channels ($a$ and $b$).
